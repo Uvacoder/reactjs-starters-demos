@@ -2,25 +2,25 @@
 //  It's a great tool to render the User Interface (UI) of modern web applications.
 // React uses a syntax extension of Javascript called JSX that allows you to write HTML directly with Javascript.
 
-const JSX = ( <
-  div > {
-    " "
-  } <
-  h1 > Hello JSX < /h1>{" "} < /
-  div >
-);
+// const JSX = ( <
+//   div > {
+//     " "
+//   } <
+//   h1 > Hello JSX < /h1>{" "} < /
+//   div >
+// );
 
-// 2 add comments in react js
-const JSX = ( <
-  div > {
-    " "
-  } {
-    /**Valid comment */
-  } <
-  h1 > This is a block of Jsx < /h1> <
-  p > Here 's a subtitle </p> < /
-  div >
-);
+// // 2 add comments in react js
+// const JSX = ( <
+//   div > {
+//     " "
+//   } {
+//     /**Valid comment */
+//   } <
+//   h1 > This is a block of Jsx < /h1> <
+//   p > Here 's a subtitle </p> < /
+//   div >
+// );
 
 // const TypesOfFruits = ()=>{
 //   return(
@@ -240,3 +240,78 @@ const JSX = ( <
 // }
 
 // ReactDOM.render( < Component / > , document.querySelector("#render-here"));
+
+
+//ES6 CLASS SYNTAX
+/*
+constructor(){
+  this.property = value;
+}
+
+super(property);
+*/
+// class GreatMovies {
+//   constructor(movie) {
+//     this.movie = movie;
+//   }
+
+
+//   printMovie() {
+//     return `My favorite movie is ${this.movie}`;
+//   };
+// };
+
+// class GreatSeries extends GreatMovies {
+//   constructor(movie, series) {
+//     super(movie);
+//     this.series = series;
+//   }
+
+//   printList() {
+//     return `${this.printMovie()}, now I am watching ${this.series} series today.`
+//   }
+// }
+// const watchingList = new GreatSeries('The Social dilemma', 'The Society');
+// console.log(watchingList.printList());
+
+// //ES7 CLASS SYNTAX 
+// class GreatMovies {
+//   movie = movie;
+
+//   printMovie = () => {
+//     return `My favorite movie is ${this.movie}`;
+//   }
+// }
+
+// class GreatSeries extends GreatMovies {
+//   movie = movie;
+//   series = series;
+
+//   printList = () => {
+//     return `${this.printMovie()}, now I am watching ${this.series} series today.`
+//   }
+// }
+
+// const watchingList = new GreatSeries('The Social dilemma', 'The Society');
+// console.log(watchingList.printList());
+
+class GreatMovies {
+  movie = 'The Social dilemma';
+
+  printMovie = () => {
+    console.log(`My favorite movie is ${this.movie}`);
+  }
+}
+
+class GreatSeries extends GreatMovies {
+  movie = 'The Social dilemma';
+  series = 'The Society';
+
+  printList = () => {
+    return (`My favorite movie is ${this.movie} and now I am watching ${this.series} series today.`)
+  }
+}
+
+const watchingList = new GreatSeries();
+console.log(watchingList);
+console.log(watchingList.printList());
