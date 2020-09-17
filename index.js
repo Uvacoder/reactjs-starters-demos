@@ -315,3 +315,55 @@ class GreatSeries extends GreatMovies {
 const watchingList = new GreatSeries();
 console.log(watchingList);
 console.log(watchingList.printList());
+
+//****************Spread and rest ****************
+
+const person = {
+  name: 'jane'
+};
+
+const profileCard = {
+  ...person,
+  age: 20
+
+}
+
+console.log(profileCard)
+
+const profile = (...users) => {
+  return users.filter(user => user === 'jane');
+}
+
+const results = profile('jane', 'tracy', 'Andrew', 'Rachel');
+
+console.log(results);
+
+//How jsx is compiled 
+// function App() {
+//   return (
+//     <div className="App">
+//       <h1>Learning React now! 👩‍💻</h1>
+//     </div>
+//   );
+
+//   //The above jsx syntax is compiled into the code below
+//   // return React.createElement('div', {
+//   //   className: 'App'
+//   // }, React.createElement('h1', null, 'Learning React now! 👩‍💻 '));
+// }
+
+// function App() {
+//    return (
+//       <div className='App'>
+//          <h1>Learning React now! 👩‍💻</h1>
+//          <Person name='Tracy' age='23' date={Date()} />
+//          <Person name='Alssay Drake' age='22' date={Date()}>
+//             {' '}
+//             I am from The Society Series{' '}
+//          </Person>
+//       </div>
+//    )
+//    // return React.createElement('div', {
+//    //   className: 'App'
+//    // }, React.createElement('h1', null, 'Learning React now! 👩‍💻 '));
+// }
