@@ -241,7 +241,6 @@
 
 // ReactDOM.render( < Component / > , document.querySelector("#render-here"));
 
-
 //ES6 CLASS SYNTAX
 /*
 constructor(){
@@ -255,11 +254,10 @@ super(property);
 //     this.movie = movie;
 //   }
 
-
 //   printMovie() {
 //     return `My favorite movie is ${this.movie}`;
-//   };
-// };
+//   }
+// }
 
 // class GreatSeries extends GreatMovies {
 //   constructor(movie, series) {
@@ -268,21 +266,24 @@ super(property);
 //   }
 
 //   printList() {
-//     return `${this.printMovie()}, now I am watching ${this.series} series today.`
+//     return `${this.printMovie()}, now I am watching ${
+//       this.series
+//     } series today.`;
 //   }
 // }
-// const watchingList = new GreatSeries('The Social dilemma', 'The Society');
+// const watchingList = new GreatSeries("The Social dilemma", "The Society");
 // console.log(watchingList.printList());
 
-// //ES7 CLASS SYNTAX 
+// //ES7 CLASS SYNTAX
 // class GreatMovies {
 //   movie = movie;
 
 //   printMovie = () => {
 //     return `My favorite movie is ${this.movie}`;
-//   }
+//   };
 // }
-
+// const movie = new GreatMovies("The Social dilemma 😒 💕 ");
+// movie.printMovie();
 // class GreatSeries extends GreatMovies {
 //   movie = movie;
 //   series = series;
@@ -296,20 +297,20 @@ super(property);
 // console.log(watchingList.printList());
 
 class GreatMovies {
-  movie = 'The Social dilemma';
+  movie = "The Social dilemma";
 
   printMovie = () => {
     console.log(`My favorite movie is ${this.movie}`);
-  }
+  };
 }
 
 class GreatSeries extends GreatMovies {
-  movie = 'The Social dilemma';
-  series = 'The Society';
+  movie = "The Social dilemma 🎥 ";
+  series = "The Society";
 
   printList = () => {
-    return (`My favorite movie is ${this.movie} and now I am watching ${this.series} series today.`)
-  }
+    return `My favorite movie is ${this.movie} and now I am watching ${this.series} series today 🍹.`;
+  };
 }
 
 const watchingList = new GreatSeries();
@@ -319,26 +320,25 @@ console.log(watchingList.printList());
 //****************Spread and rest ****************
 
 const person = {
-  name: 'jane'
+  name: "jane",
 };
 
 const profileCard = {
   ...person,
-  age: 20
+  age: 20,
+};
 
-}
-
-console.log(profileCard)
+console.log(profileCard);
 
 const profile = (...users) => {
-  return users.filter(user => user === 'jane');
-}
+  return users.filter((user) => user === "jane");
+};
 
-const results = profile('jane', 'tracy', 'Andrew', 'Rachel');
+const results = profile("jane", "tracy", "Andrew", "Rachel");
 
 console.log(results);
 
-//How jsx is compiled 
+//How jsx is compiled
 // function App() {
 //   return (
 //     <div className="App">
@@ -367,3 +367,31 @@ console.log(results);
 //    //   className: 'App'
 //    // }, React.createElement('h1', null, 'Learning React now! 👩‍💻 '));
 // }
+
+// function name(name) {
+//   console.log("Tracy 🚠 ");
+// }
+// name();
+
+// function add(a, b) {
+//   return a + b;
+// }
+// console.log(add(3, 5));
+
+// const add = (a, b) => a + b;
+
+// console.log(add(3, 5));
+
+// const series = (favorite) => console.log(`I love watching ${favorite}`);
+// series("The office");
+
+class GreatMovies {
+  movie = "The Social dilemma";
+
+  printMovie = () => {
+    console.log(`My favorite movie is ${this.movie}`);
+  };
+}
+
+const myMovies = new GreatMovies();
+myMovies.printMovie();
