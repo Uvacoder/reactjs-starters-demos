@@ -210,3 +210,133 @@ console.log(watchingList.printList());
 ```
 
 For more about classes check out [MDN mozilla docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)
+
+#### Imports and exports
+
+You can store functions in one Javascript file and later on export it to use it in another Js file by importing the file or a specific function/s.
+
+How to export a file or some functions
+You can use the default when exporting one main thing from the file. This can be done only once in a file.
+
+```js
+const movieList = (movie) => `I enjoyed watching ${movie} movie`;
+
+export default movieList;
+
+//If the function is more than one
+const movieList = (movie) => `I enjoyed watching ${movie} movie 💕 `;
+
+const seriesList = (series) => `I enjoyed watching ${series} series 🍹 `;
+
+export { movieList, seriesList as default };
+
+//You can also export function individually => named export
+export const movieList = (movie) => `I enjoyed watching ${movie} movie 💕 `;
+
+export const seriesList = (series) => `I enjoyed watching ${series} series 🍹 `;
+```
+
+How import files
+
+```js
+//How to import multiple functions individually
+//uses the named export
+import { movieList, seriesList } from "./watching/mylist.js";
+
+//how to import one function called movieList
+//using the default export
+import movieList from "./watching/mylist.js";
+
+//importing using an alias
+import { movieList as MovieList } from "./watching/mylist.js";
+```
+
+If you want to learn more about imports and exports you can follow the following resources
+[import and export in Javascript by Digital Ocean](https://www.digitalocean.com/community/tutorials/js-modules-es6)
+[import and export by Javascript info](https://javascript.info/import-export)
+
+#### Spread and rest operator
+
+When I first heard of this operator I was so curious to understand how only three dots can be so powerful, simple and easy to use. To me the three dots were like magic, a safe way to copy reference types without any issues.
+The spread and rest operator uses three dots (. . .) to initialize it.
+The spread operator is used for splitting up the values of an array and adding them to another array or splitting properties of an object and adding them to another object.
+
+```js
+//In arrays
+const jobs = ["teacher 👩‍🏫 ", "engineer 🧰", "developer 👩‍💻"];
+
+const currentJobs = [
+  ...jobs,
+  "actor 🎥",
+  "social media influencer 📴",
+  "musician 🎻",
+];
+
+console.log(currentJobs);
+//output => ["teacher 👩‍🏫 ", "engineer 🧰", "developer 👩‍💻", "actor 🎥", "social media influencer 📴", "musician 🎻"]
+
+//In objects
+const currentJob = {
+  name: "Jane",
+  job: "developer 👩‍💻",
+};
+
+console.log(currentJob);
+
+const funJob = {
+  ...currentJob,
+  name: "Tracy",
+  PartTimejob: "musician 🎻",
+};
+
+console.log(funJob);
+//output => {name: "Tracy", job: "developer 👩‍💻", PartTimejob: "musician 🎻"}
+```
+
+The rest operator
+This operator is used to represent an infinite amount to arguments in a function.
+
+```js
+const num = (...args) => {
+  return args.map((arg) => arg / 2);
+};
+const result = num(40, 60, 80, 120, 200, 300);
+console.log(result);
+
+//output => [20, 30, 40, 60, 100, 150]
+
+//example 2
+const myFruits = (...fruits) => {
+  return fruits.filter((fruit) => fruit !== "🍌");
+};
+
+const result = myFruits("🍎", "🥝", "🍌", "🍍", "🍉", "🍏");
+
+console.log(result);
+//output
+["🍎", "🥝", "🍍", "🍉", "🍏"];
+```
+
+#### Destructuring
+
+At first I thought that destructuring and the spread operator do the same job, but I was wrong. The spread operator copies all the values of an array or all properties of an object while destructuring copies specific values or properties which you store in a variable.
+Array destructuring
+
+```js
+const myFruits = ["🍎", "🥝", "🍌", "🍍", "🍉", "🍏"];
+const [myFavorite, , , listFavorite] = myfruits;
+console.log(myFavorite, listFavorite);
+//output
+🍎 🍍
+
+```
+
+Objects destructuring
+
+```js
+const { name, job } = { name: "Tracy", job: "musician 🎻" };
+console.log(name, job);
+//output
+Tracy musician 🎻
+
+```

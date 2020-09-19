@@ -385,13 +385,71 @@ console.log(results);
 // const series = (favorite) => console.log(`I love watching ${favorite}`);
 // series("The office");
 
-class GreatMovies {
-  movie = "The Social dilemma";
+// class GreatMovies {
+//   movie = "The Social dilemma";
 
-  printMovie = () => {
-    console.log(`My favorite movie is ${this.movie}`);
-  };
-}
+//   printMovie = () => {
+//     console.log(`My favorite movie is ${this.movie}`);
+//   };
+// }
 
-const myMovies = new GreatMovies();
-myMovies.printMovie();
+// const myMovies = new GreatMovies();
+// myMovies.printMovie();
+
+// const jobs = ["teacher 👩‍🏫 ", "engineer 🧰", "developer 👩‍💻"];
+
+// const currentJobs = [
+//   ...jobs,
+//   "actor 🎥",
+//   "social media influencer 📴",
+//   "musician 🎻",
+// ];
+
+// console.log(currentJobs);
+
+//output => ["teacher 👩‍🏫 ", "engineer 🧰", "developer 👩‍💻", "actor 🎥", "social media influencer 📴", "musician 🎻"]
+
+// const currentJob = {
+//   name: "Jane",
+//   job: "developer 👩‍💻",
+// };
+
+// console.log(currentJob);
+
+// const funnyJob = {
+//   ...currentJob,
+//   name: "Tracy",
+//   PartTimejob: "musician 🎻",
+// };
+
+// console.log(funnyJob);
+
+//output => {name: "Tracy", job: "developer 👩‍💻", PartTimejob: "musician 🎻"}
+
+// const num = (...args) => {
+//   return args.map((arg) => arg / 2);
+// };
+// const result = num(40, 60, 80, 120, 200, 300);
+// console.log(result);
+
+//output => [20, 30, 40, 60, 100, 150]
+
+// const myFruits = (...fruits) => {
+//   return fruits.filter((fruit) => fruit !== "🍌");
+// };
+
+// const result = myFruits("🍎", "🥝", "🍌", "🍍", "🍉", "🍏");
+
+// console.log(result);
+
+// const myFruits = ["🍎", "🥝", "🍌", "🍍", "🍉", "🍏"];
+// [myFavorite, , listFavorite] = myFruits;
+// console.log(myFavorite, listFavorite);
+
+// const myJob = {
+//   name: "Jane",
+//   job: "developer 👩‍💻",
+// };
+
+const { name, job } = { name: "Tracy", job: "musician 🎻" };
+console.log(name, job);
