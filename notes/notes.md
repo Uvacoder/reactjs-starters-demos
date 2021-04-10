@@ -293,8 +293,8 @@ console.log(funJob);
 //output => {name: "Tracy", job: "developer 👩‍💻", PartTimejob: "musician 🎻"}
 ```
 
-The rest operator
-This operator is used to represent an infinite amount to arguments in a function.
+#### The rest operator
+- This operator is used to represent an infinite amount to arguments in a function.
 
 ```js
 const num = (...args) => {

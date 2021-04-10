@@ -432,7 +432,7 @@ console.log(results);
 // const result = num(40, 60, 80, 120, 200, 300);
 // console.log(result);
 
-//output => [20, 30, 40, 60, 100, 150]
+// output => [20, 30, 40, 60, 100, 150]
 
 // const myFruits = (...fruits) => {
 //   return fruits.filter((fruit) => fruit !== "🍌");
@@ -451,5 +451,58 @@ console.log(results);
 //   job: "developer 👩‍💻",
 // };
 
-const { name, job } = { name: "Tracy", job: "musician 🎻" };
-console.log(name, job);
+// const { name, job } = { name: "Tracy", job: "musician 🎻" };
+// console.log(name, job);
+
+// const friends = [{
+//     name: 'Jane 🌟',
+//     age: 23
+//   },
+//   {
+//     name: 'Bob 🥽',
+//     age: 22
+//   },
+//   {
+//     name: 'Tracy 🏌',
+//     age: 24
+//   },
+//   {
+//     name: 'Jack 🎸',
+//     age: 25
+//   },
+//   {
+//     name: 'Fred 🤾',
+//     age: 25
+//   }
+// ];
+
+// const filterAge = friends.filter(friend => friend.age > 23);
+// console.log(filterAge);
+
+// const mapNames = friends.map(friend => friend.name);
+// console.log(mapNames);
+
+// ["Jane 🌟", "Bob 🥽", "Tracy 🏌", "Jack 🎸", "Fred 🤾"]
+
+const friends = [
+  {
+    name: "Bob 🥽",
+    age: 22,
+    hobby: "golf🏌",
+    music: "rock 🎸",
+  },
+];
+
+const result = (friends.age = 23);
+console.log(result);
+
+friends = [
+  {
+    name: "Jane 🥽",
+    age: 24,
+    hobby: "golf🏌",
+    music: "Pop 🎸",
+  },
+];
+
+console.log(friends);
