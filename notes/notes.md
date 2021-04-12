@@ -340,3 +340,75 @@ console.log(name, job);
 Tracy musician 🎻
 
 ```
+
+---
+
+**React Component LifeCycle**
+- LifeCycle methods can be used to override at particular times in the process.
+
+### Types of methods
+#### Mounting
+- These methods are called in the following order when an instance of a component is being created and inserted into the DOM:
+
+- constructor()
+- static getDerivedStateFromProps()
+- render()
+- componentDidMount()
+
+#### Updating
+- An update can be caused by changes to props or state. These methods are called in the following order when a component is being re-rendered:
+
+- static getDerivedStateFromProps()
+- shouldComponentUpdate()
+- render()
+- getSnapshotBeforeUpdate()
+- componentDidUpdate()
+
+#### Unmounting
+- This method is called when a component is being removed from the DOM:
+
+- componentWillUnmount()
+
+#### Error Handling
+- These methods are called when there is an error during rendering, in a lifecycle method, or in the constructor of any child component.
+
+- static getDerivedStateFromError()
+- componentDidCatch()
+
+
+#### Constructor
+- When using the constructor method, you have to include super(props), this will ensure the `this.props` is not undefined. 
+
+Uses
+- To intiliaze the local state
+- Binding event handler methods to instance
+
+- In the constuctor is the only method that should can use `this.state` directly. In other stages you can use `this.setState()`
+- Also it's important to note that you should not copy props directly into `this.state`, the prop might not get updated in the state.
+```js
+constuctor(props){
+  super(props);
+  this.state = {score = 0};
+  //don't do this
+  this.state = {color: props.color}
+  this.handleClick = this.hadleClick.bind(this);
+}
+```
+
+#### static getDerviedStateFromProps()
+
+- This method is used before invoking the render method. It can return an object to update the state or use null that will not update the state.
+- It can be used when the state depends on the changes in props over time. Also it runs everytime render is invocked. 
+```js
+static getDerviedStateFromProps(props,state);
+```
+
+#### componentDidMount()
+- componentDidMount() is invoked immediately after a component is mounted. 
+- Helps React to know whether or not you want to re-render the  component. You can easily cancel the updating process with this method. 
+uses
+- Increasing performance of your app since you will cancel unnecessary component updates. 
+
+```js
+componentDidMount(nextProps, nextState)
+```
