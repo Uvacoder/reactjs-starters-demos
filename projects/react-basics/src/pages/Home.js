@@ -1,4 +1,5 @@
 import {useState} from 'react';
+
 import BlogList from '../components/BlogList';
 
 const Home = () => {
@@ -12,6 +13,7 @@ const Home = () => {
     <div>
       <div className="home">
        <BlogList blogs={blogs} title="All the blogs"/>
+
       </div>
     </div>
    );
