@@ -1,9 +1,9 @@
 import {useState} from 'react'
-import ExpenseItem from "./components/ExpenseItem";
+import Expenses from './components/Expenses/Expenses';
+
 
 
 function App() {
-  const getItem = 'Finished!!!'
   
   const [expenses, setExpenses ]= useState([
     {
@@ -31,7 +31,7 @@ function App() {
   return (
     <div>
       <h1>Learning React</h1>
-      <ExpenseItem expenses={expenses}/>
+      <Expenses expenses={expenses}/>
     </div>
   );
 }
