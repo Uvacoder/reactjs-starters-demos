@@ -1,6 +1,8 @@
-import Expenses from './components/Expenses';
+import Expenses from './components/Expenses/Expenses';
+import React from 'react'
 
-function App() {
+const App =() =>{
+  
   const expenses = [
     {
       id: 'e1',
@@ -22,6 +24,7 @@ function App() {
       date: new Date(2021, 4, 1),
     },
   ];
+
 
   return (
     <div>
