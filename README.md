@@ -340,3 +340,667 @@ console.log(name, job);
 Tracy musician 🎻
 
 ```
+
+---
+
+
+# Deep dive to React JS 
+- React is a JavaScript library that contains reusable UI components that are interactive and easily build single page applications.
+- Components are reusable UI piece in React. Such as the Navbar, footer etc. They help to keep the  Dry method on code since you avoid repeating yourself. 
+
+## React topics you should know
+- I will cover a few important topics in react that you should understand as a beginner. I will also provide links to the react documentation for you do dive deeper into the topics. 
+### Styling wiyh CSS in React
+#### Inline styles
+
+``` jsx
+<a href="/create" style={{
+  color:"red", 
+  backgroundColor: "#e1756d", 
+  borderRadius: "8px"
+}}>Blog</a>
+```
+
+#### Using BEM with CSS  
+
+- You can import the css file where you have written all the styles and add them to the jsx elements with the attribute `className = 'name of your class '`. 
+
+```jsx
+import './ExpenseItem.css';
+import Card from '../UI/Card';
+
+const ExpenseItem =(props)=> {
+  return (
+    <Card className='expense-item'>
+      <div className='expense-item__description'>
+        <h2>{props.title}</h2>
+      </div>
+    </Card>
+  );
+}
+
+export default ExpenseItem;
+
+```
+
+### Props and components
+- Props are also called properties the used to pass data from one component to another. This meaans from the parent component to the child component hence it's a `uni-directional flow`.
+
+```jsx
+import ExpenseDate from './ExpenseDate';
+import './ExpenseItem.css';
+import Card from '../UI/Card';
+
+const ExpenseItem =(props)=> {
+  return (
+    <Card className='expense-item'>
+      <ExpenseDate date={props.date} />
+      <div className='expense-item__description'>
+        <h2>{props.title}</h2>
+        <div className='expense-item__price'>${props.amount}</div>
+      </div>
+    </Card>
+  );
+}
+
+export default ExpenseItem;
+```
+### Composition in React
+- Composition is the act of combining one or more components together. You can incoporate an inbuilt property from React called `props.children`. This can be useful if you you want to create your own custom wrappers. For example :
+
+```js
+
+import './Container.css'
+
+const Container = (props) =>{
+  const classes = ' container ' + props.className;
+
+  return (
+    <div className={classes}> {props.children}</div>
+  )
+}
+
+export default Container
+```
+
+**Behind JSX Syntax**
+```jsx
+ return (
+    <div>
+      <h2>Let's get started!</h2>
+      <Blog blogs={blogs}/>
+    </div>
+  );
+
+  //Turns to
+
+return React.createElement(
+'div', 
+{}, 
+React.createElement('h2', {}, 'Let\'s get started'), 
+React.createElement(Blog, {blogs: blogs}) )
+
+```
+
+#### Event handling 
+- Handling events is similar to how you do it with vanilla Javascript to change the DOM elements. 
+- The main difference are:
+1) In React you use camelCase to handle the events.
+2) You should pass the function in the JSX. You can use it as an inline function or name it before then pass it to the jsx code. 
+
+- For example, we want to create a button that when clicked it will output `title!!!` in the console.
+
+```jsx
+const NavbarItem = () => {
+	const titleHandler = () => console.log('title !!!!');
+	return (
+		<Card className="navbar-item">
+			<button onClick={titleHandler}>Change title</button>
+		</Card>
+	);
+};
+
+export default NavbarItem;
+```
+
+- Another example
+
+```jsx
+const handleClick = () => console.log('hello react');
+const handleAnonymously = (name) => console.log(`change this!! ${name}`);
+
+<button onClick={handleClick}>Click Me</button>
+
+// Event handling with dynamic values
+<button onClick={()=> handleAnonymously('Tracy')
+}>Click here</button>
+```
+
+#### UseState Hook
+- <a href ="https://reactjs.org/docs/hooks-overview.html">Hooks</a> are functions that let you “hook into” React state and lifecycle features from function components.
+- To make the useState variables, you use array destructuring syntax.
+```jsx
+	const [ title, setTitle ] = useState(props.title);
+```
+
+- The first variable is the state variable and the other one is the updating function which will update the state. 
+- The updating state function can be called in an event handler to change the state.
+- In example, the event handler will be called `titleHandler` and this will be called when the button is clicked.
+```jsx
+	<button onClick={titleHandler}>Change title</button>
+```
+- We should never call the function directly in the event handler like in vanilla JavaScript. Since it will be called when the component is rendered but not when the button is clicked. 
+
+```jsx
+//This is not a great  practice in react.
+	<button onClick={titleHandler()}>Change title</button>
+   
+   // This is a great practice
+	<button onClick={titleHandler}>Change title</button>
+```
+
+ -In the function we want to update the state of the `props.title` and change it to `Title changed`.
+ - When the button is clicked react will note that the component with the state will be rendered again to change the state of the `props.title`. 
+
+```jsx
+const titleHandler = () => {
+		setTitle('Title changed');
+	};
+```
+
+``` jsx
+import { useState } from 'react';
+
+const NavbarItem = (props) => {
+	//let title = props.title;
+	const [ title, setTitle ] = useState(props.title);
+	const titleHandler = () => {
+		setTitle('Title changed');
+	};
+	return (
+		<Card className="navbar-item">
+			<div className="navbar-item__description">
+				<h2>{title}</h2>
+			</div>
+			<button onClick={titleHandler}>Change title</button>
+		</Card>
+	);
+};
+
+export default NavbarItem;
+```
+
+
+
+#### List and Keys
+- The most important things you need to know ✍
+1) How to use maps
+2) Add the values in a dynamic format
+3) Add key and the value can be the data id or index in the elemet that unquiely identifies the list items in the siblings.
+
+- <a href="https://reactjs.org/docs/lists-and-keys.html#gatsby-focus-wrapper">Keys</a>help React identify which items have changed, are added, or are removed. Keys should be given to the elements inside the array to give the elements a stable identity:
+```javascript
+import {useState} from 'react';
+
+const Blog = () => {
+  const [blogs, setBlogs] = useState([
+    { title: 'React for beginners',author: 'Tracy', bodyText: 'React was created by Facebook...', id: 1 },
+    { title: 'Javascript array methods you need to know', author: 'Jane', bodyText: 'ES6 comes with modern array methods..', id: 2 },
+    { title: 'How to start Open Source Contribution',author: 'Stacy', bodyText: 'lorem ipsum...', id: 3 }
+  ])
+  return ( 
+    <div>
+      
+      <div className="blog">
+       {blogs.map((blog) =>(
+         <div key={blog.id}>
+            <h1>{blog.title}</h1>
+            <p>Written by {blog.author}</p>
+            <p>{blog.bodyText}</p>
+         </div>
+       ))}
+      </div>
+    </div>
+   );
+}
+ 
+export default Blog;
+```
+
+### Forms in React
+- Writing forms in react is similar to vanilla JavaScript but the `HTML attributes` use camelCase apart from aria attributes that use
+the hypens `aria-* `.
+
+Example of a simple react form
+```jsx
+import './BudgetForm.css';
+const BudgetForm = () => {
+	const changeHandler = (e) => {
+		console.log(e.target.value);
+	};
+	return (
+		<form>
+			<div className="budget-form">
+				<div className="budget-form__control">
+					<label>
+						<p>Title</p>
+						<input type="text" aria-label='expense Title' onChange={changeHandler} />
+					</label>
+				</div>
+				<div className="budget-form__control">
+					<label>
+						<p>Amount</p>
+						<input type="number" min="0.01" step="0.01" aria-label='amount' />
+					</label>
+				</div>
+				<div className="budget-form__control">
+					<label>
+						<p>Date</p>
+						<input type="date" min="01-01-2019" max="31-12-2022" aria-label='date' />
+					</label>
+				</div>
+			</div>
+			<div className="budget-form__actions">
+				<button type="submit">Add Expense</button>
+			</div>
+		</form>
+	);
+};
+
+export default BudgetForm;
+
+{/* Also you can label your input with htmlFor atribute*/}
+<label htmlFor = "username">Name:</label>
+<input id = "username" type = "text" name = "name"/>
+```
+
+### Updating the state with hooks
+- When you have more than one event handler that are udating the state, you can write them in different ways. 
+- For example 
+   - Multiple state method
+   - Object in the state and using previous state snapshoot.
+
+
+#### Using the prevState
+- Previous State snapshot ensure you get the latest state snapshot no matter how many times the state is upadated.
+- This is passed an argument to the inner function in the state update function.
+- It a great practice to use the previous state method, as an argument for the inner function in your `setState()` function that returns the previous state snapshot and the updated value.
+- I know that's a lot to take in, let me show an exapmle to make it more clear.
+
+```jsx
+import React, { useState } from 'react';
+import './BudgetForm.css';
+const BudgetForm = () => {
+
+  
+  const [userInput, setUserInput] = useState({
+    userTitle (''),
+    userAmount(''),
+    userDate('')
+  });
+
+  const changeHandler = (e) => {
+		setUserInput((prevState)=>{
+      return {
+        ...prevState,
+        userTitle: e.target.value
+      }
+    })
+	};
+  const amountHandler =(e) =>{
+    setUserInput((prevState)=>{
+      return{
+        ...prevState,
+        userAmount: e.target.value
+      }
+    })
+  }
+  const datehandler = (e)=>{
+    setUserInput((prevState)=>{
+      return{
+        ...prevState,
+        userDate: e.target..value
+      }
+    })
+  }
+
+	return (
+		<form>
+			<div className="budget-form">
+				<div className="budget-form__control">
+					<label>
+						<p>Title</p>
+						<input type="text" aria-label='expense Title' onChange={changeHandler} />
+					</label>
+				</div>
+				<div className="budget-form__control">
+					<label>
+						<p>Amount</p>
+						<input type="number" min="0.01" step="0.01" aria-label='amount' onChange={amountHandler} />
+					</label>
+				</div>
+				<div className="budget-form__control">
+					<label>
+						<p>Date</p>
+						<input type="date" min="01-01-2019" max="31-12-2022" aria-label='date' onChange={dateHandler}/>
+					</label>
+				</div>
+			</div>
+			<div className="budget-form__actions">
+				<button type="submit">Add Expense</button>
+			</div>
+		</form>
+	);
+};
+
+export default BudgetForm;
+```
+#### Multiple states method
+```jsx
+import React, { useState } from 'react';
+import './BudgetForm.css';
+const BudgetForm = () => {
+  const [userTitle, setUserTitle] = useState('');
+  const [userAmount, setUserAmount] = useState('');
+  const [userDate, setUserDate] = useState('');
+	
+
+  const changeHandler = (e) => {
+		setUserTitle(e.target.value);
+	};
+  const amountHandler =(e) =>{
+    setUserAmount(e.target.value);
+  }
+  const datehandler = (e)=>{
+    setUserDate(e.target.value);
+  }
+
+	return (
+		<form>
+			<div className="budget-form">
+				<div className="budget-form__control">
+					<label>
+						<p>Title</p>
+						<input type="text" aria-label='expense Title' onChange={changeHandler} />
+					</label>
+				</div>
+				<div className="budget-form__control">
+					<label>
+						<p>Amount</p>
+						<input type="number" min="0.01" step="0.01" aria-label='amount' onChange={amountHandler} />
+					</label>
+				</div>
+				<div className="budget-form__control">
+					<label>
+						<p>Date</p>
+						<input type="date" min="01-01-2019" max="31-12-2022" aria-label='date' onChange={dateHandler}/>
+					</label>
+				</div>
+			</div>
+			<div className="budget-form__actions">
+				<button type="submit">Add Expense</button>
+			</div>
+		</form>
+	);
+};
+
+export default BudgetForm;
+```
+
+### How to get values from an input 
+- Create a form and ensure you remember about accessibility. 
+- Create the state and update state variables through destructring.
+- Use handler functions to get values from the input. 
+- Remember to use a handler function on the form to get input values on submit.
+- Always remember to add the value attribute on the inputs. 
+
+```jsx
+import { useState } from 'react';
+import './ExpenseForm.css';
+const ExpenseForm = () => {
+	const [ enteredTitle, setEnteredTitle ] = useState('');
+	const [ enteredAmount, setEnteredAmount ] = useState('');
+	const [ enteredDate, setEnteredDate ] = useState('');
+
+	const titleEnteredHandler = (e) => {
+		setEnteredTitle(e.target.value);
+	};
+	const amountEnteredHandler = (e) => {
+		setEnteredAmount(e.target.value);
+	};
+	const dateEnteredHandler = (e) => {
+		setEnteredDate(e.target.value);
+	};
+	const submitHandler = (e) => {
+		e.preventDefault();
+
+		const expenseData = {
+			title: enteredTitle,
+			amount: enteredAmount,
+			date: new Date(enteredDate)
+		};
+    //clears the input section when the form is submitted
+		setEnteredTitle('');
+		setEnteredAmount('');
+		setEnteredDate('');
+		console.log(expenseData);
+	};
+
+	return (
+		<form onSubmit={submitHandler}>
+			<div className="new-expense__controls">
+				<div className="new-expense__control">
+					<label>
+						<p>Title</p>
+						<input
+							type="text"
+							value={enteredTitle}
+							aria-label="expense name"
+							onChange={titleEnteredHandler}
+						/>
+					</label>
+				</div>
+				<div className="new-expense__control">
+					<label>
+						<p>Amount</p>
+						<input
+							type="number"
+							value={enteredAmount}
+							min="0.01"
+							step="0.01"
+							aria-label="amount"
+							onChange={amountEnteredHandler}
+						/>
+					</label>
+				</div>
+				<div className="new-expense__control">
+					<label>
+						<p>Date</p>
+						<input
+							type="date"
+							value={enteredDate}
+							min="01-01-2019"
+							max="31-12-2022"
+							aria-label="date"
+							onChange={dateEnteredHandler}
+						/>
+					</label>
+				</div>
+			</div>
+			<div className="new-expense__actions">
+				<button type="submit">Add Expense</button>
+			</div>
+		</form>
+	);
+};
+
+export default ExpenseForm;
+```
+
+#### Two way binding
+- Two way binding is a way to control your custom componenet. This is where a value in the component is passed on to the parent component through props and is received through props from the parent component. 
+- The parent component controls the child component through using the state. 
+
+- Let's at a look through an example 
+- We are creating a component for the year dropdown and it's state will be managed in the parent component, which will be in another file. 
+
+- First we need to create an event handler which will be called `dropDownHandler`. This will help us get the value of the dropdown.
+```jsx
+import React from 'react';
+import './ExpensesFilter.css';
+
+const ExpensesFilter = () => {
+	const dropDownHandler = (e) => {
+		console.log(e.target.value);
+	};
+
+	return (
+		<div className="expenses-filter">
+			<div className="expenses-filter__control">
+				<label>Filter by year</label>
+				<select  onChange={dropDownHandler}>
+					<option value="2022">2022</option>
+					<option value="2021">2021</option>
+					<option value="2020">2020</option>
+					<option value="2019">2019</option>
+				</select>
+			</div>
+		</div>
+	);
+};
+
+export default ExpensesFilter;
+```
+- The other file will hold the ExpensesFilter component as a parent. 
+```jsx
+import React from 'react';
+const Expenses = () => {
+	return (
+		<div className="expenses">
+		 <ExpensesFilter/>
+		</div>
+	);
+};
+
+export default Expenses;
+```
+
+Now let's pass the properties of the component to the parent component. 
+```jsx
+import React from 'react';
+const Expenses = () => {
+	const yearDateHandler = (selectedYear)=>{
+		console.log(selectedYear) // 2022 / 2220, the year you select in the drop down list
+	}
+	return (
+		<div className="expenses">
+		 <ExpensesFilter onChangeFilter={yearDateHandler}/>
+			
+		</div>
+	);
+};
+
+export default Expenses;
+```
+- Now we can make the `ExpensesFilter` component a two way binding and manage it's state in the `Expenses` component. 
+- Inside the `dropDownHandler` function we need to pass the `onChangeFilter` as a prop to get the value passed down. 
+
+```jsx
+import React from 'react';
+import './ExpensesFilter.css';
+
+const ExpensesFilter = (props) => {
+	const dropDownHandler = (e) => {
+		prop.onChangeFilter(e.target.value);
+		console.log(e.target.value);
+	};
+
+	return (
+		<div className="expenses-filter">
+			<div className="expenses-filter__control">
+				<label>Filter by year</label>
+				<select  onChange={dropDownHandler}>
+					<option value="2022">2022</option>
+					<option value="2021">2021</option>
+					<option value="2020">2020</option>
+					<option value="2019">2019</option>
+				</select>
+			</div>
+		</div>
+	);
+};
+
+export default ExpensesFilter;
+```
+```jsx
+import React from 'react';
+const Expenses = (props) => {
+	const [filteredYear, setFilteredYear] = useState('2020');
+	const yearDateHandler = (selectedYear)=>{
+		setFilterYear(selectedYear);
+		console.log(selectedYear) 
+	}
+	return (
+		<div className="expenses">
+		 <ExpensesFilter onChangeFilter={yearDateHandler}/>
+			
+		</div>
+	);
+};
+
+export default Expenses;
+```
+- Let's take the value of the dropdown `year selected` and manage it in the parent component called in the `Expenses` component. 
+
+```jsx
+import React from 'react';
+import './ExpensesFilter.css';
+
+const ExpensesFilter = (props) => {
+	const dropDownHandler = (e) => {
+		prop.onChangeFilter(e.target.value);
+		console.log(e.target.value);
+	};
+
+	return (
+		<div className="expenses-filter">
+			<div className="expenses-filter__control">
+				<label>Filter by year</label>
+				<select selected={selectedYear}  onChange={dropDownHandler}>
+					<option value="2022">2022</option>
+					<option value="2021">2021</option>
+					<option value="2020">2020</option>
+					<option value="2019">2019</option>
+				</select>
+			</div>
+		</div>
+	);
+};
+
+export default ExpensesFilter;
+```
+
+```jsx
+import React from 'react';
+const Expenses = (props) => {
+	const [filteredYear, setFilteredYear] = useState('2020');
+	const yearDateHandler = (selectedYear)=>{
+		setFilterYear(selectedYear);
+		console.log(selectedYear) 
+	}
+	return (
+		<div className="expenses">
+		 <ExpensesFilter selectedYear={filteredYear} 
+		 onChangeFilter={yearDateHandler}/>
+			
+		</div>
+	);
+};
+
+export default Expenses;
+```
+- That's it, that's how you can create a custom component and make it a two way binding. 
+### Presentational vs Stateful components
+- Stateless is also called presenational or dumb component.
+- Stateful component is also called smart component.
+- stateful components manage internal state and stateless don't manage internal state in it's component, it outputs data only. 
