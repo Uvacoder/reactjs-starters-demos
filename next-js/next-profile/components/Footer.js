@@ -1,11 +1,13 @@
 const Footer = () => {
 	return (
-		<div>
-			<p>Built with 💖 and some coffee ☕</p>
+		<footer>
+			<p>
+				Built with <span>💖</span> and some coffee <span>☕</span>
+			</p>
 			<span>
 				&copy; Copyright {new Date().getFullYear()} <a href="https://github.com/muchirijane">Jane Tracy</a>{' '}
 			</span>
-		</div>
+		</footer>
 	);
 };
 

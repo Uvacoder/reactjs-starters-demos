@@ -14,21 +14,120 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+### How to create a Navbar
+- Creating navbar links is similar to Gatsby but the difference is you need to import the link component from next.js. 
+- In this example I will create a `Navbar` js file from the component folder and add the links to the different page routes on my site.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```jsx
+import Link from 'next/link';
 
-## Learn More
+const Navbar = () => {
+	return (
+		<nav>
+			<div className="logo">
+				<Link href="/">
+					<a>
+						<h1>UI Resources</h1>
+					</a>
+				</Link>
+			</div>
+
+			<Link href="/">
+				<a>Home</a>
+			</Link>
+			<Link href="/about">
+				<a>About</a>
+			</Link>
+			<Link href="/resources">
+				<a>All coding Resources</a>
+			</Link>
+		</nav>
+	);
+};
+
+export default Navbar;
+
+```
+- Another trick is if you want to link to a page that has a subpage in it, you can use `index.js` instead of naming it with other names, to make it a default subpage. 
+- Example the in the pages folder I have the `All resources` page which i added a subpage called `index.js` the route will be: 
+```jsx
+<Link href="/resources">
+	<a>All coding Resources</a>
+</Link>
+```
+- If I used another name like `frontend.js` inside the `resources` folder and I wanted to link to  that page. It would look like: 
+```jsx
+<Link href="/resources/frontend">
+	<a>All coding Resources</a>
+</Link>
+```
+### Using global styles and  CSS Modules in next js
+- To make your project look neat, you can create a `styles` folder that contains your css modules and global styles. 
+- For the global styles to be applied through out your website and components you need to add the styleshhet in `pages/_app.js`;
+
+```jsx
+import '../styles/globals.css';
+
+function MyApp({ Component, pageProps }) {
+	return (
+		<Layout>
+			<Component {...pageProps} />
+		</Layout>
+	);
+}
+
+export default MyApp;
+```
+- To add css modules to your page to get styles for that specific page component. Example let's create a css module for the Home page component
+- Steps to take:
+1) Create a `Home.module.css` file in the `styles` folder.
+2) Add your element styles as classes instead of `p{}` it will be `.p{}`
+
+```css
+.title {
+	color: #333;
+	padding-bottom: 20px;
+	text-align: center;
+}
+.text {
+	color: #777;
+}
+```
+3) Add the styleshhet in your HOME page component. 
+```js
+import styles from '../styles/Home.module.css';
+```
+4) Let's add the title and he text styles as classes. This will be in the `ClassName` attribute. 
+```jsx
+import Link from 'next/link';
+import styles from '../styles/Home.module.css';
+
+export default function Home() {
+	return (
+		<div>
+			<h1 className={styles.title}>Learning Next Js</h1>
+			<h4>Let's get started</h4>
+			<p className={styles.text}>
+				
+				Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas nostrum autem natus ex suscipit
+				repellat obcaecati repellendus ratione neque eaque sint molestiae fuga officiis vitae recusandae,
+				consequatur quidem? Voluptatum, autem.
+			</p>
+
+			<p className={styles.text}> lorem ipsum dolor sit amet consectetur adipis</p>
+			<Link href="/resources"> See all the UI Resources for Developers</Link>
+		</div>
+	);
+}
+```
+
+- Note the styles in the css module files are scoped meaning that the class will be specific to that css module style included in the page.
+From the example above, if I wanted to add a different title style to the the `about` page, I can still add it as `.title`. This will be only scoped to the about page.
+
 
 To learn more about Next.js, take a look at the following resources:
 
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
