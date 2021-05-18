@@ -1,0 +1,17 @@
+.center {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.btn {
+	display: block;
+	width: 150px;
+	padding: 8px 0;
+	margin: 20px auto;
+	background: #353e58;
+	border-radius: 4px;
+	color: #fff;
+	text-align: center;
+}
