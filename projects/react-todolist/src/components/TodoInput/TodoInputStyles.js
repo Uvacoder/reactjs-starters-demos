@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
+export const Form = styled.form`width: 700px;`;
 export const InputContainer = styled.section`
-	width: 40%;
 	padding: 2rem 5rem;
 	background-color: #e0fbfc;
 	box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.1);
@@ -39,4 +39,5 @@ export const Button = styled.button`
 	justify-content: center;
 	align-items: center;
 	border: none;
+	cursor: pointer;
 `;
