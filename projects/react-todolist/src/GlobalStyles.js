@@ -20,7 +20,7 @@ html{
 
 body{
   font-family: 'Fira Sans', sans-serif;
-  font-size: 16px;
+  font-size: 2rem;
   font-weight: 400;
   line-height: 1.6;
   background-color: #E0FBFC;

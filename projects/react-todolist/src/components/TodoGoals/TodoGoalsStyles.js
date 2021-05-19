@@ -13,6 +13,7 @@ export const GoalItem = styled.li`
 	padding: 2rem 5rem;
 	background-color: #e0fbfc;
 	box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.1);
+	color: ${(props) => (props.checkedItem ? 'line-through' : '')};
 
 	span {
 		svg {
@@ -27,4 +28,15 @@ export const GoalCheck = styled.input`
 	width: 1.5rem;
 	margin-right: 2rem;
 	border: 1px solid #293241;
+`;
+
+export const ItemContent = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	svg {
+		cursor: pointer;
+		margin-right: 2rem;
+		font-size: 2.3rem;
+	}
 `;

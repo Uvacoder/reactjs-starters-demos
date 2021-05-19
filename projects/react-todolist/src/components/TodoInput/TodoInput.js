@@ -2,28 +2,37 @@ import { useState } from 'react';
 import { Form, InputContainer, Button } from './TodoInputStyles';
 const TodoInput = (props) => {
 	const [ enteredGoal, setEnteredGoal ] = useState('');
+	const [ isValid, setValid ] = useState(true);
 	const addTodoHandler = (e) => {
 		const addedTodo = e.target.value;
+		if (e.target.value.trim().length > 0) {
+			setValid(true);
+		}
 		setEnteredGoal(addedTodo);
 		console.log(addedTodo);
 	};
 	const submitHandler = (e) => {
 		e.preventDefault();
-		props.onAddTodo(enteredGoal);
+		if (enteredGoal.trim().length === 0) {
+			setValid(false);
+			return;
+		}
 
-		console.log(enteredGoal);
+		props.onAddTodo(enteredGoal);
 	};
 	return (
 		<Form onSubmit={submitHandler}>
-			<InputContainer>
+			<InputContainer inValid={!isValid}>
 				<label>
 					<h2>Add Task ✍🏼</h2>
-					<input type="text" onChange={addTodoHandler} />
+					<input
+						type="text"
+						onChange={addTodoHandler}
+						placeholder={!isValid ? 'Enter your Goal' : 'Attend Google I/O'}
+					/>
 				</label>
 
-				<Button type="button" onClick={submitHandler}>
-					Add
-				</Button>
+				<Button type="submit">Add</Button>
 			</InputContainer>
 		</Form>
 	);

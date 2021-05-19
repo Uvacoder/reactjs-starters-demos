@@ -15,16 +15,19 @@ export const InputContainer = styled.section`
 	& label {
 		font-size: 2.5rem;
 		font-weight: 600;
+		color: ${(props) => (props.inValid ? 'red' : '')};
+		transition: all 0.2s ease-in;
 	}
 
 	& input {
 		border: none;
-		border-bottom: 2px solid #293241;
+		border-bottom: 2px solid ${(props) => (props.inValid ? 'red' : '')};
 		background-color: transparent;
 		margin-bottom: 2rem;
 		width: 400px;
 		padding: 1rem 2rem;
 		font-size: 1.8rem;
+		transition: all 0.2s ease-in;
 	}
 `;
 
