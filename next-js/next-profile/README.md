@@ -78,6 +78,63 @@ function MyApp({ Component, pageProps }) {
 
 export default MyApp;
 ```
+- Let's add some styles in our global stylesheets.
+1) Add some styles to the `global.css` file in the `styles` folder.
+```css
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
+
+* {
+	margin: 0;
+	padding: 0;
+}
+*,
+*::before,
+*::after {
+	box-sizing: inherit;
+}
+html {
+	box-sizing: border-box;
+	font-size: 62.5%;
+}
+body {
+	font-size: 1.6rem;
+	background: #f2f2f2;
+	color: #333;
+	font-family: "Nunito";
+}
+a {
+	color: #333;
+	text-decoration: none;
+}
+.btn {
+	display: block;
+	width: 150px;
+	padding: 8px 0;
+	margin: 20px auto;
+	background: #353e58;
+	border-radius: 4px;
+	color: #fff;
+	text-align: center;
+}
+h4{ 
+	font-weight: 600;
+}
+
+```
+2) Add them to the pages. Example let me add the `btn` styling
+```jsx
+import Link from 'next/link';
+import styles from '../styles/Home.module.css';
+
+export default function Home() {
+	return (
+		<div>
+			<h1 className={styles.title}>Learning Next Js</h1>
+			<h4>Let's get started</h4>
+		</div>
+	);
+}
+```
 - To add css modules to your page to get styles for that specific page component. Example let's create a css module for the Home page component
 - Steps to take:
 1) Create a `Home.module.css` file in the `styles` folder.
@@ -123,6 +180,95 @@ export default function Home() {
 
 - Note the styles in the css module files are scoped meaning that the class will be specific to that css module style included in the page.
 From the example above, if I wanted to add a different title style to the the `about` page, I can still add it as `.title`. This will be only scoped to the about page.
+
+### Images in Next Js
+- Using the Image component allows next to resize and optimize your images. This ensures large images are not sent to small screen devices with small viewport width.
+- It allows lazy loading of images hence increasing performance and speed of your page.
+- Images are optimized on demand when they are requested by the user as they scroll down your page.
+
+1) Add your image in the public folder. My image was `404.svg` for my 404 page. 
+2) Import the `Image component` from Next.
+```jsx
+import Image from 'next/image';
+```
+3) Add the `Image Component` and start the src image with ` "/{Name of your image}" `
+- Add the width and height of your image. {This is a must or it cause an error => 500 error}
+```jsx
+<Image src="/404.svg" alt="error illustration" width={500} height={500} />
+```
+
+
+```jsx
+import Image from 'next/image';
+const InfoError = () => {
+	const router = useRouter();
+
+	useEffect(() => {
+		setTimeout(() => {
+			router.push('/');
+		}, 3000);
+		console.log('Use effect');
+	}, []);
+	return (
+		<div className={styles.center}>
+			<Image src="/404.svg" alt="error illustration image" width={500} height={500} />
+			<div>
+				<h1> UGH! Looks like you are lost</h1>
+				<p>The page you are looking for can't be found.</p>
+				<Link href="/">
+					<a className="btn">Go back Home</a>
+				</Link>
+			</div>
+		</div>
+	);
+};
+
+export default InfoError;
+```
+[Learm more about image optimization with Next](https://nextjs.org/docs/basic-features/image-optimization)
+
+
+### Metadata in Next JS
+
+1) Import the Head component from Next
+```js
+import Head from 'next/head';
+```
+2) Add the Head component and add the title and meta description
+
+```jsx
+export default function Home() {
+	return (
+		<>
+		<Head>
+			<title>UI Resources | Home</title>
+			<meta name="description" content="{....description}"/>
+			<meta name="keywords" content="UI resources, developer, design"/>
+		</Head>
+		<div>
+			<h1 className={styles.title}>Learning Next Js</h1>
+			<h4>Let's get started</h4>
+			<p className={styles.text}>
+				{' '}
+				Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas nostrum autem natus ex suscipit
+				repellat obcaecati repellendus ratione neque eaque sint molestiae fuga officiis vitae recusandae,
+				consequatur quidem? Voluptatum, autem.{' '}
+			</p>
+
+			<p className={styles.text}> lorem ipsum dolor sit amet consectetur adipis</p>
+			<Link href="/resources"> See all the UI Resources for Developers</Link>
+		</div>
+		</>
+	);
+}
+```
+3) Import the Head component to your pages and there you go, your site can rank up with SEO. 
+
+[Learn more about the Head component from Next Js](https://nextjs.org/docs/api-reference/next/head)
+
+
+
+
 
 
 To learn more about Next.js, take a look at the following resources:

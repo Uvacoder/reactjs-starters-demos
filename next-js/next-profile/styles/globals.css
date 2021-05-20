@@ -1,6 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
 
+* {
+	margin: 0;
+	padding: 0;
+}
+*,
+*::before,
+*::after {
+	box-sizing: inherit;
+}
+html {
+	box-sizing: border-box;
+	font-size: 62.5%;
+}
 body {
+	font-size: 1.6rem;
+	line-height: 1.6;
 	background: #f2f2f2;
 	color: #333;
 	font-family: "Nunito";
@@ -41,4 +56,14 @@ footer {
 .not-found a {
 	color: #4979ff;
 	text-decoration: underline;
+}
+.btn {
+	display: block;
+	width: 150px;
+	padding: 8px 0;
+	margin: 20px auto;
+	background: #353e58;
+	border-radius: 4px;
+	color: #fff;
+	text-align: center;
 }
