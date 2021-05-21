@@ -1,0 +1,14 @@
+.container {
+	padding: 1.4rem 2rem;
+	width: 90%;
+	margin: auto;
+	background: #fff;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+	border-radius: 10px;
+	margin-top: 2rem;
+	list-style: none;
+}
+
+.content {
+	padding: 0;
+}
