@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-export const GoalContainer = styled.div`margin-top: 3rem;`;
-
 export const GoalList = styled.ul`margin-top: 3rem;`;
 
 export const GoalItem = styled.li`
@@ -13,7 +11,8 @@ export const GoalItem = styled.li`
 	padding: 2rem 5rem;
 	background-color: #e0fbfc;
 	box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.1);
-	color: ${(props) => (props.checkedItem ? 'line-through' : '')};
+	text-decoration: ${(props) => (props.checkedItem ? 'line-through' : '')};
+	background-color: ${(props) => (props.checkedItem ? 'rgba(0,0,0,0.1)' : '')};
 
 	span {
 		svg {
@@ -38,5 +37,26 @@ export const ItemContent = styled.div`
 		cursor: pointer;
 		margin-right: 2rem;
 		font-size: 2.3rem;
+	}
+`;
+
+export const Footer = styled.div`
+	margin-top: 3rem;
+	padding: 2rem 5rem;
+	background-color: #e0fbfc;
+	box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.1);
+	display: flex;
+	justify-content: space-around;
+`;
+
+export const Button = styled.button`
+	padding: 1rem 2rem;
+	background-color: ${(props) => (props.primary ? '#293241' : ' #3d5a80')};
+	border-radius: 1rem;
+	border: none;
+	color: #fefefe;
+
+	&:hover {
+		background-color: ${(props) => (props.primary ? '#3d5a80' : ' #293241')};
 	}
 `;

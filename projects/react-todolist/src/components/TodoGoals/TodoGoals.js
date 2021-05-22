@@ -1,28 +1,42 @@
 import { useState } from 'react';
 import { HiTrash, HiCheckCircle } from 'react-icons/hi';
-import { GoalContainer, GoalList, GoalItem, ItemContent } from './TodoGoalsStyles';
+import { Button, Footer, GoalList, GoalItem, ItemContent } from './TodoGoalsStyles';
+
+import './Todo.css';
 const TodoGoals = (props) => {
 	const [ isChecked, setChecked ] = useState(false);
-	const checkedHandler = (item) => {};
+	const checkedHandler = () => {
+		setChecked(true);
+	};
+	const UnCheckHandler = () => {
+		setChecked(false);
+	};
 
 	return (
 		<div>
 			<GoalList>
 				{props.items.map((item) => (
-					<GoalContainer key={item.id}>
-						<GoalItem key={item.id} id={item.id}>
-							<ItemContent checkedItem={!isChecked}>
-								<HiCheckCircle onClick={() => checkedHandler(item.text)} />
-								{item.text}
-							</ItemContent>
+					<GoalItem key={item.id} checkedItem={isChecked}>
+						<ItemContent>
+							{/* <HiCheckCircle onClick={() => checkedHandler(item.text)} /> */}
 
-							<span onClick={() => props.onDeleteItem(item.id)}>
-								<HiTrash />
-							</span>
-						</GoalItem>
-					</GoalContainer>
+							<span>{item.text}</span>
+						</ItemContent>
+
+						<span onClick={() => props.onDeleteItem(item.id)}>
+							<HiTrash />
+						</span>
+					</GoalItem>
 				))}
 			</GoalList>
+
+			<Footer>
+				<Button primary onClick={checkedHandler}>
+					{' '}
+					Check all
+				</Button>
+				<Button onClick={UnCheckHandler}> Uncheck all</Button>
+			</Footer>
 		</div>
 	);
 };
