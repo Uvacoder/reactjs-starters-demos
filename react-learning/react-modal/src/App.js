@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import AddUser from './Users/AddUser';
 import UserList from './List/UserList';
 
@@ -18,11 +18,11 @@ const App = () => {
 		});
 	};
 	return (
-		<div>
+		<React.Fragment>
 			<h1>React Modal</h1>
 			<AddUser onAddValues={addUserValues} />
 			<UserList values={UserValues} />
-		</div>
+		</React.Fragment>
 	);
 };
 

@@ -1,4 +1,4 @@
-import Card from '../UI/Card';
+
 import classes from './UserList.module.css';
 const List = (props) => {
 	return (
@@ -7,7 +7,7 @@ const List = (props) => {
 				<ul className={classes.content} >
           {props.values.map((value) => (
 					<li className={classes.container} key={value.id}>
-              {value.name}{` (`} {value.age} {`) Years old`}
+              {value.name} ({value.age} years old)
 					</li>
           ))}
 				</ul>

@@ -351,14 +351,151 @@ Tracy musician 🎻
 ## React topics you should know
 - I will cover a few important topics in react that you should understand as a beginner. I will also provide links to the react documentation for you do dive deeper into the topics. 
 ### Styling wiyh CSS in React
-#### Inline styles
+- You can use different ways to style your React components. They include: 
+     1) CSS Modules
+		 2) Styled Components
+		 3) Conditional and dynamic styling 
+#### Conditional and dynamic styling
+```css
+.form-control {
+  margin: 0.5rem 0;
+}
+
+.form-control label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.form-control input {
+  display: block;
+  width: 100%;
+  border: 1px solid #ccc;
+  font: inherit;
+  line-height: 1.5rem;
+  padding: 0 0.25rem;
+}
+
+.form-control input:focus {
+  outline: none;
+  background: #fad0ec;
+  border-color: #8b005d;
+}
+
+.form-control.invalid input{
+  border-color: #ff3636;
+  background-color: #ff9898;
+}
+
+.form-control.invalid{
+  color: #ff3535;
+}
+```
 
 ``` jsx
-<a href="/create" style={{
-  color:"red", 
-  backgroundColor: "#e1756d", 
-  borderRadius: "8px"
-}}>Blog</a>
+import React from 'react';
+const CourseInput = props => {
+  const [enteredValue, setEnteredValue] = useState('');
+  const [isValid, setValid] = useState(true);
+
+  const goalInputChangeHandler = e => {
+    if(e.target.value.trim().length > 0) setValid(true);
+    setEnteredValue(e.target.value);
+  };
+
+  const formSubmitHandler = e => {
+    e.preventDefault();
+    if(enteredValue.trim().length === 0){
+      setValid(false);
+      return;
+    }
+    props.onAddGoal(enteredValue);
+  };
+
+  return (
+    <form onSubmit={formSubmitHandler}>
+      <div className={`form-control ${!isValid ? 'invalid' : ''}`}>
+        <label>Course Goal</label>
+        <input type="text" onChange={goalInputChangeHandler} />
+      </div>
+      <Button type="submit">Add Goal</Button>
+    </form>
+  );
+};
+
+export default CourseInput;
+```
+
+#### Styled components
+
+```jsx
+import React, { useState } from 'react';
+
+import Button from '../../UI/Button/Button';
+import styled from 'styled-components'
+
+const FormInput = styled.div`
+  margin: 0.5rem 0;
+
+
+& label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.5rem;
+  color: ${props => props.invalid ? '#ff3535' : '#000'}
+}
+
+& input {
+  display: block;
+  width: 100%;
+  border: 1px solid ${props => props.invalid ? '#ff3636' : '#ccc'};
+  background-color: ${props => props.invalid ? '#ff9898' : 'transparent' };
+  font: inherit;
+  line-height: 1.5rem;
+  padding: 0 0.25rem;
+}
+
+& input:focus {
+  outline: none;
+  background: #fad0ec;
+  border-color: #8b005d;
+}
+
+
+`;
+
+const CourseInput = props => {
+  const [enteredValue, setEnteredValue] = useState('');
+  const [isValid, setValid] = useState(true);
+
+  const goalInputChangeHandler = e => {
+    if(e.target.value.trim().length > 0) setValid(true);
+    setEnteredValue(e.target.value);
+  };
+
+  const formSubmitHandler = e => {
+    e.preventDefault();
+    if(enteredValue.trim().length === 0){
+      setValid(false);
+      return;
+    }
+    props.onAddGoal(enteredValue);
+  };
+
+  return (
+    <form onSubmit={formSubmitHandler}>
+      <FormInput invalid={!isValid}>
+        <label>Course Goal</label>
+        <input type="text" onChange={goalInputChangeHandler} />
+      </FormInput>
+      <Button type="submit">Add Goal</Button>
+    </form>
+  );
+};
+
+export default CourseInput;
+
+
 ```
 
 #### Using BEM with CSS  
@@ -1004,3 +1141,335 @@ export default Expenses;
 - Stateless is also called presenational or dumb component.
 - Stateful component is also called smart component.
 - stateful components manage internal state and stateless don't manage internal state in it's component, it outputs data only. 
+
+
+#### Conditionals in functional component
+- Conditional rendering is similar to how it works in JavaScript. You create an If statement or a conditional operator to render the current state with the initial UI and React will update the state when needed.
+- There are different was you can use conditionals in your component. For my examples we shall create functional component to showcase this. 
+
+#### Teniary operator 
+We are storing a list of expenses in the `filteredExpenses` variable. 
+- if the list of expenses is empty hence length is 0, it will output the text `No expenses added`. If the length of expenses stored in `filteredExpenses` variable is greater than 0, it will output the list of expenses in the UI, which is stored in the `ExpenseItem` component.
+
+```jsx
+import React, { useState } from 'react';
+
+import ExpenseItem from './ExpenseItem';
+import Card from '../UI/Card';
+import ExpensesFilter from './ExpensesFilter';
+import './Expenses.css';
+
+const Expenses = (props) => {
+	
+	const filteredExpenses = props.expenses.filter((expense) => {
+		return expense.date.getFullYear().toString() === filteredYear;
+	});
+
+	return (
+		<div>
+			<Card className="expenses">
+				{filteredExpenses.length === 0 ? (
+					<p>No expenses added</p>
+				) : (
+					filteredExpenses.map((expense) => (
+						<ExpenseItem
+							key={expense.id}
+							title={expense.title}
+							amount={expense.amount}
+							date={expense.date}
+						/>
+					))
+				)}
+			</Card>
+		</div>
+	);
+};
+
+export default Expenses;
+
+```
+
+#### Using the If statement 
+- We shall store our default value in a variable called `expensesContent`, in our case we need to output the text `No expenses added` then update the output in the if statement when the condition is true. 
+
+```jsx
+import React, { useState } from 'react';
+
+import ExpenseItem from './ExpenseItem';
+import Card from '../UI/Card';
+import ExpensesFilter from './ExpensesFilter';
+import './Expenses.css';
+
+const Expenses = (props) => {
+	
+	const filteredExpenses = props.expenses.filter((expense) => {
+		return expense.date.getFullYear().toString() === filteredYear;
+	});
+
+	let expensesContent = <p>No expenses added</p>;
+
+	if (filteredExpenses.length > 0) {
+		expensesContent = filteredExpenses.map((expense) => (
+			<ExpenseItem key={expense.id} title={expense.title} amount={expense.amount} date={expense.date} />
+		));
+	}
+
+	return (
+		<div>
+			<Card className="expenses">
+				{expensesContent}
+			</Card>
+		</div>
+	);
+};
+
+export default Expenses;
+
+```
+
+#### Inline If with Logical && Operator
+- If the first condition is true it will render the second part and return it as the value of the statement. 
+- if the list of expenses is empty hence length is 0, it will output the text `No expenses added`. If the length of expenses stored in `filteredExpenses` variable is greater than 0, it will output the list of expenses in the UI, which is stored in the `ExpenseItem` component. 
+```jsx
+import React, { useState } from 'react';
+
+import ExpenseItem from './ExpenseItem';
+import Card from '../UI/Card';
+import ExpensesFilter from './ExpensesFilter';
+import './Expenses.css';
+
+const Expenses = (props) => {
+	
+	const filteredExpenses = props.expenses.filter((expense) => {
+		return expense.date.getFullYear().toString() === filteredYear;
+	});
+
+	return (
+		<div>
+			<Card className="expenses">
+				{filteredExpenses.length === 0 && <p>No expenses added</p>}
+
+				{filteredExpenses.length > 0 &&
+					filteredExpenses.map((expense) => (
+						<ExpenseItem
+							key={expense.id}
+							title={expense.title}
+							amount={expense.amount}
+							date={expense.date}
+						/>
+					))}
+			</Card>
+		</div>
+	);
+};
+
+export default Expenses;
+
+```
+
+### How to hide or toggle a component with a click event listener
+- In some cases you may want to show a component when you click on a button. Maybe you want to hide some parts of the UI rendered when a user clicks or submits a form. 
+- I will some you with an example. We want to a button on the UI first, when the user clicks it, the form to add new expenses is pops up and when the expenses are submited, the form is closed and goes back to the default state of having a button on the UI. 
+
+![Toggle component](https://media.giphy.com/media/Gvak2K5IPRfYQHlRHW/giphy.gif)
+
+- We need to add an event handler on the button 
+
+```js
+<button onClick={expenseFormHandler}>Add new expenses</button>
+```
+
+- Then add the state of the component and the initial state to be false by default. This will hide the form for us.
+
+```jsx
+import { useState } from 'react';
+const [ toggle, setToggle ] = useState(false);
+```
+- Add the event handler on the form and update the state to be true. This means when we click on the button `Add expense` we shall see the form. 
+
+```jsx
+import { useState } from 'react';
+const [ toggle, setToggle ] = useState(false);
+
+const expenseFormHandler = () => {
+	setToggle(true);
+};
+```
+- We render the button as toggle for the form. if the toggle is true then we need the form, if it's false we hide the form.
+
+```jsx
+import { useState } from 'react';
+const [ toggle, setToggle ] = useState(false);
+
+const expenseFormHandler = () => {
+	setToggle(true);
+};
+
+const NewExpense = (props) => {
+	return(
+		<div>
+		 	{!toggle && <button onClick={expenseFormHandler}>Add new expenses</button>}
+		</div>
+	)
+}
+
+export default NewExpense;
+```
+
+
+```jsx
+import { useState } from 'react';
+import ExpenseForm from './ExpenseForm';
+import './NewExpense.css';
+
+const NewExpense = (props) => {
+	const [ toggle, setToggle ] = useState(false);
+
+	const saveExpenseDataHandler = (enteredExpenseData) => {
+		const expenseData = {
+			...enteredExpenseData,
+			id: Math.random().toString()
+		};
+		console.log(expenseData);
+		props.onAddExpense(expenseData);
+		setToggle(false);
+	};
+	const expenseFormHandler = () => {
+		setToggle(true);
+	};
+	const hideExpenseFormHandler = () => {
+		setToggle(false);
+	};
+	return (
+		<div className="new-expense">
+			{!toggle && <button onClick={expenseFormHandler}>Add new expenses</button>}
+			{toggle && <ExpenseForm onSaveExpenseData={saveExpenseDataHandler} onCancelForm={hideExpenseFormHandler} />}
+		</div>
+	);
+};
+
+export default NewExpense;
+
+```
+
+
+### React Fragments
+- React Fragments helps to wrap multiple components without having to create extra nodes to the DOM. 
+- For most of the time, you have been using `div` wrapper since in React you can't have more than one root element. 
+- Examle the below code will cause an error since you have multiple root elements.
+
+```js
+const App = () ={
+	return (
+		<h1>Hello, world!</h1>
+		<p>Learning Rect Fragments</p>
+	);
+}
+
+//under the hood
+return(
+	React.createElement('h1', {}, 'Hello, world!')
+	React.createElement('p', {}, 'Learning Rect Fragments')
+)
+```
+- Instead the `div` element is used to wrap the components.
+
+
+```js
+const App = () ={
+	return (
+		<div>
+			<h1>Hello, world!</h1>
+	  	<p>Learning Rect Fragments</p>
+		</div>
+	);
+}
+
+//under the hood
+
+return React.createElement(
+'div', 
+{}, 
+React.createElement('h1', {}, 'Hello, world!'), 
+React.createElement('p', {}, 'Learning Rect Fragments')
+)
+```
+- But the above method is not recommend because at the end you will have multiple div elements just for wrapping and are 'irrelevant'.
+
+#### solution
+- Using React Fragments with solve this problem. As we said in the introduction section, React Fragments helps to wrap multiple components without having to create extra nodes to the DOM. For example,
+
+```jsx
+import React from 'react'
+const App = () ={
+	return (
+		<React.Fragements>
+			<h1>Hello, world!</h1>
+	  	<p>Learning Rect Fragments</p>
+		</React.Fragements>
+	);
+}
+```
+-Ps: Don't forget to import React. `import React from 'react' `
+
+##### React Fragments in Array Elements
+- Instead of having a div content to add the key property, you can React.Fragments. Example if you want to map some details about the users without making it a list (using the `ul and li`), you can use React Fragments.
+
+```jsx
+const Details = (props) => {
+	return (
+		<div>
+		{props.users.map(user =>(
+			<div key={user.id}>
+				<h1>Name: {user.name}</h1>
+				<p>Username: {user.username}</p>
+				<p>Email: {user.email}</p>
+				<p>Steet: {user.address.street}</p>
+				<p>City: {user.address.city}</p>
+			</div>
+		))}
+			
+		</div>
+	);
+};
+
+export default Details;
+```
+- Using React.Fragments with help reduce adding unnecessary nodes to the DOM. 
+
+```jsx
+import React from 'react';
+
+const Details = (props) => {
+	return (
+		<React.Fragments>
+		{props.users.map(user =>(
+			<React.Fragments key={user.id}>
+				<h1>Name: {user.name}</h1>
+				<p>Username: {user.username}</p>
+				<p>Email: {user.email}</p>
+				<p>Steet: {user.address.street}</p>
+				<p>City: {user.address.city}</p>
+			</React.Fragments>
+		))}
+			
+		</React.Fragments>
+	);
+};
+
+export default Details;
+```
+##### Short syntax for React Fragments
+- Instead of using `React.Fragment` to wrap your components, you can use the empty tag `<> </>` that's the short syntax. Exapmle, 
+
+```jsx
+
+const App = () ={
+	return (
+		<>
+			<h1>Hello, world!</h1>
+	  	<p>Learning Rect Fragments</p>
+		</>
+	);
+}
+```
