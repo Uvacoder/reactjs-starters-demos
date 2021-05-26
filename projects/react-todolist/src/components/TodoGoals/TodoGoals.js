@@ -13,7 +13,7 @@ const TodoGoals = (props) => {
 	};
 
 	return (
-		<div>
+		<>
 			<GoalList>
 				{props.items.map((item) => (
 					<GoalItem key={item.id} checkedItem={isChecked}>
@@ -37,7 +37,7 @@ const TodoGoals = (props) => {
 				</Button>
 				<Button onClick={UnCheckHandler}> Uncheck all</Button>
 			</Footer>
-		</div>
+		</>
 	);
 };
 

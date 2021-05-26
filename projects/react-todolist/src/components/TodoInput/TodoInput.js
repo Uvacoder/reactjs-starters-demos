@@ -28,7 +28,7 @@ const TodoInput = (props) => {
 		setError(null);
 	};
 	return (
-		<div>
+		<>
 			{error && <ErrorModal title={error.title} message={error.message} onError={errorHandle} />}
 			<Form onSubmit={submitHandler}>
 				<InputContainer inValid={!isValid}>
@@ -45,7 +45,7 @@ const TodoInput = (props) => {
 					<Button type="submit">Add</Button>
 				</InputContainer>
 			</Form>
-		</div>
+		</>
 	);
 };
 
