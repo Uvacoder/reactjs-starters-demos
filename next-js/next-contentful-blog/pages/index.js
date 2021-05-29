@@ -25,7 +25,11 @@ export default function Home({ recipes }) {
 				<meta name="description" content="Delicious food recipes to make at home" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			{recipes.map((recipe) => <div key={recipe.sys.id}>{recipe.fields.title}</div>)}
+			{recipes.map((recipe) => (
+				<div key={recipe.sys.id}>
+					<h3>{recipe.fields.title}</h3>
+				</div>
+			))}
 		</div>
 	);
 }
