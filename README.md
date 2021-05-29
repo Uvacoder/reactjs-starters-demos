@@ -1473,3 +1473,328 @@ const App = () ={
 	);
 }
 ```
+
+### React Portal
+- Portal is a first-class way to render children into a DOM node that exists outside the DOM hierarchy of the parent component.
+- The most common usage is for components like hovercards, dialogs, tooltips. Where the parent components have `overflow:hidden` or `z-index` which should be displayed on top of the main container. 
+
+#### Event Bubbling through portals
+- [Event bubbling](https://reactjs.org/docs/portals.html) is when an event fired from inside a portal will propagate to ancestors in the containing React tree, even if those elements are not ancestors in the DOM tree. Example: 
+
+```html
+<div id="backdrop-root"></div>
+<div id="modal-root"></div>
+<div id="root"></div>  // the main div that wraps your application
+```
+
+Example of a react portals
+
+1) Let's turn our error modal into a portal
+- Before we adjust the code this is how the modal component looks like and when a user doesn't add a task it appears as a error modal. 
+- The user can see the error message 'no tasks or goal was added', you can close it by clicking the button or the transparent background `BackDrop` div. 
+
+
+```jsx
+import Button from '../UI/Button';
+
+import {
+	BackDrop,
+	Modal,
+	ModalHeader,
+	ModalTitle,
+	ModalContent,
+	ModalMessage,
+	ModalButtonSection
+} from './ErrorModalstyles';
+const ErrorModal = (props) => {
+	return (
+		<>
+			<BackDrop onClick={props.onError} />
+			<Modal>
+				<ModalHeader>
+					<ModalTitle>{props.title}</ModalTitle>
+				</ModalHeader>
+				<ModalContent>
+					<ModalMessage>{props.message}</ModalMessage>
+				</ModalContent>
+				<ModalButtonSection>
+					<Button onClick={props.onError}>Okay</Button>
+				</ModalButtonSection>
+			</Modal>
+		</>
+	);
+};
+
+export default ErrorModal;
+```
+2) Let's store the modal and the transparent background in separate variables.
+
+```jsx
+import Button from '../UI/Button';
+
+import {
+	BackDrop,
+	Modal,
+	ModalHeader,
+	ModalTitle,
+	ModalContent,
+	ModalMessage,
+	ModalButtonSection
+} from './ErrorModalstyles';
+const ErrorModal = (props) => {
+	const BackDropContainer = props =>{
+		return <BackDrop onClick={props.onError} />
+	}
+	const ModalContainer = props => {
+		return(
+			<Modal>
+				<ModalHeader>
+					<ModalTitle>{props.title}</ModalTitle>
+				</ModalHeader>
+				<ModalContent>
+					<ModalMessage>{props.message}</ModalMessage>
+				</ModalContent>
+				<ModalButtonSection>
+					<Button onClick={props.onError}>Okay</Button>
+				</ModalButtonSection>
+			</Modal>
+		)
+	}
+	return (
+		<>
+		<BackDropContainer/>
+		<ModalContainer/>
+
+		</>
+	);
+};
+
+export default ErrorModal;
+
+```
+3) Let's import the  `ReactDOM` and call the createPortal function. 
+- The createPortal takes in two arguments the child and the container. The child is the `React Node` to be rendered and the container is the element in the DOM. 
+- In our example the children will be the `<BackDropContainer/>` and `<ModalContainer/>`. 
+- The elements will the one we added in the index.html file in the public folder. 
+`document.getElementById('backdrop-root')` and `document.getElementById('modal-root')`
+
+```html
+<div id="backdrop-root"></div>
+<div id="modal-root"></div>
+<div id="root"></div>  // the main div that wraps your application
+```
+
+```js
+ReactDOM.createPortal(child, container);
+```
+
+```jsx
+import ReactDOM from 'react-dom';
+{ReactDOM.createPortal(<BackDropContainer/>, document.getElementById('backdrop-root'))}
+{ReactDOM.createPortal(<ModalContainer/>, document.getElementById('modal-root'))}
+
+```
+4) For it to work let's add our props. This because we had on click event in our modal and our transparent background. 
+- Let's write the final code for modal portal to work. 
+
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom'
+import Button from '../UI/Button';
+
+import {
+	BackDrop,
+	Modal,
+	ModalHeader,
+	ModalTitle,
+	ModalContent,
+	ModalMessage,
+	ModalButtonSection
+} from './ErrorModalstyles';
+const ErrorModal = (props) => {
+	const BackDropContainer = props =>{
+		return <BackDrop onClick={props.onError} />
+	}
+	const ModalContainer = props => {
+		return(
+			<Modal>
+				<ModalHeader>
+					<ModalTitle>{props.title}</ModalTitle>
+				</ModalHeader>
+				<ModalContent>
+					<ModalMessage>{props.message}</ModalMessage>
+				</ModalContent>
+				<ModalButtonSection>
+					<Button onClick={props.onError}>Okay</Button>
+				</ModalButtonSection>
+			</Modal>
+		)
+	}
+	return (
+		<>
+		{ReactDOM.createPortal(<BackDropContainer onError={props.onError}/>, document.getElementById('backdrop-root'))}
+		{ReactDOM.createPortal(<ModalContainer onError={props.onError} title={props.title} message={props.message}/>, document.getElementById('modal-root'))}		
+			
+		</>
+	);
+};
+
+export default ErrorModal;
+
+```
+--- 
+### Refs in React and the DOM : useRef hook
+- Refs helps you to access and work with the DOM or the React elements.
+- A good example, is using it in the input fields where you want read the value. Instead of using the state to store and update the input value you can use the Ref prop to access value. 
+- Example of a regular input field that is updated through the React State:
+
+```jsx
+import {useState} from 'react';
+
+const TodoInput = props=>{
+	const [ enteredGoal, setEnteredGoal ] = useState('');
+	const addTodoHandler = (e) => {
+		const addedTodo = e.target.value;
+		setEnteredGoal(addedTodo);
+		console.log(addedTodo);
+	};
+	const submitHandler = (e) => {
+		e.preventDefault();
+
+		props.onAddTodo(enteredGoal);
+		setEnteredGoal('');
+	};
+	return(
+		<Form onSubmit={submitHandler}>
+				<InputContainer inValid={!isValid}>
+					<label>
+						<h2>Add Task ✍🏼</h2>
+						<input
+							type="text"
+							onChange={addTodoHandler}
+							value={enteredGoal}
+							
+						/>
+					</label>
+
+					<Button type="submit">Add</Button>
+				</InputContainer>
+			</Form>
+	)
+}
+
+export default TodoInput;
+```
+
+1) To use the ref hook you need to import it from React.
+
+```jsx
+import {useState, useRef} from 'react';
+```
+2) Call `useRef` and store it in a variable. 
+- The initial value of the ref will be undefined. 
+```jsx
+const enteredGoalRef = useRef();
+```
+
+3) In our input element add the ref prop or property to connect it to the ref. 
+```jsx
+<input
+	type="text"
+	onChange={addTodoHandler}
+	value={enteredGoal}
+	ref={enteredGoalRef}
+/>
+```
+
+- But since we don't need to get the value through the state and update it, we can remove the `value` and `onChange` props. 
+- Our input now, will have the text and ref properties. 
+
+```jsx
+<input
+	type="text"
+	ref={enteredGoalRef}
+/>
+```
+
+4) Use our ref in the `submitHandler` to store our input's value when the form is submitted. 
+- For you to see the object been returned by the ref, you can console.log the ref variable. T
+- The object has the current as the key and the value will be the DOM node or React element, which in our case will be the input element.  
+
+```jsx
+const submitHandler = (e) => {
+	e.preventDefault();
+	console.log(enteredGoalRef);
+
+	props.onAddTodo(enteredGoal);
+	setEnteredGoal('');
+};
+```
+
+![user ref object with current key](https://i.ibb.co/wJ49Bkj/Screenshot-63.png)
+
+
+5) To get the value of the input element you can use:
+
+```jsx
+console.log(enteredGoalRef.current.value);
+// output Get milk
+```
+[Check the code in sandbox](https://bq165.csb.app/)
+
+6) Store the input value in a variable and pass it in the `onAddTodo` prop
+
+```jsx
+const submitHandler = (e) => {
+	e.preventDefault();
+	const enteredTodo = enteredGoalRef.current.value;
+	console.log(enteredGoalRef);
+
+	props.onAddTodo(enteredTodo);
+};
+```
+7) To reset the value of the input after form is submitted you can set the ref value to have an empty string.
+
+```jsx
+enteredGoalRef.current.value = '';
+```
+
+<iframe src="https://codesandbox.io/embed/react-useref-bq165?fontsize=14&hidenavigation=1&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="react-useRef"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
+
+
+
+
+ [Check the project and play with the input ref ](https://codesandbox.io/embed/react-useref-bq165?fontsize=14&hidenavigation=1&theme=dark)
+- For more details about the Refs check out the [react documentation](https://reactjs.org/docs/refs-and-the-dom.html).
+
+## Uncontrolled and controlled Components
+- Uncontrolled and controlled components are often used when handling forms in react. 
+- The uncontrolled components is where the data from the form is handled by the DOM. For example when the input data is obtained by using refs.
+- Controlled component is where the data from the form is controlled by the react component. Example using state to get the input values and update them ( `useState` is used). 
+- I made simple todolist with react where you can see how both controlled components and uncontrolled components are used but with the same todo project. 
+
+### uncontrolled components in a react todolist
+
+<iframe src="https://codesandbox.io/embed/react-useref-bq165?fontsize=14&hidenavigation=1&theme=dark"
+	style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+	title="react-useRef"
+	allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+	sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+></iframe>
+
+---
+### Controlled components in a react todolist
+
+<iframe src="https://codesandbox.io/embed/react-controlled-component-ol7oc?fontsize=14&hidenavigation=1&theme=dark"
+style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+title="react-controlled component"
+allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+></iframe>
+
+---	 
