@@ -228,7 +228,7 @@ export default InfoError;
 [Learm more about image optimization with Next](https://nextjs.org/docs/basic-features/image-optimization)
 
 
-### Metadata in Next JS
+### Metadata for your website in Next JS
 
 1) Import the Head component from Next
 ```js
