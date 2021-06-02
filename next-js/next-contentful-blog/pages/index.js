@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { createClient } from 'contentful';
+import RecipeCard from '../components/template/RecipeCard';
 
 export async function getStaticProps() {
 	const client = createClient({
@@ -25,11 +26,7 @@ export default function Home({ recipes }) {
 				<meta name="description" content="Delicious food recipes to make at home" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			{recipes.map((recipe) => (
-				<div key={recipe.sys.id}>
-					<h3>{recipe.fields.title}</h3>
-				</div>
-			))}
+			{recipes.map((recipe) => <RecipeCard key={recipe.sys.id} recipe={recipe} />)}
 		</div>
 	);
 }
