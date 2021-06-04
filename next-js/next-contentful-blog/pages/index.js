@@ -27,6 +27,13 @@ export default function Home({ recipes }) {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			{recipes.map((recipe) => <RecipeCard key={recipe.sys.id} recipe={recipe} />)}
+			<style jsx>{`
+				.recipe-list {
+					display: grid;
+					grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+					grid-gap: 20px 60px;
+				}
+			`}</style>
 		</div>
 	);
 }
