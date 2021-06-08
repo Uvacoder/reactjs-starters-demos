@@ -10,6 +10,7 @@ const Header = () => {
     <div className={classes['main-image']}>
       <img src={MealsImage} alt="Delicious meals on a table"/>
     </div>
+    
   </> );
 }
  
