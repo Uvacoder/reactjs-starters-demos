@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom'
 import classes from './Modal.module.css'
 
 const BackdropModal = (props) => {
-		return <div className={classes.backdrop}/>;
+		return <div className={classes.backdrop} onClick={props.onHideCart}/>;
 	};
 const ModalContainer =(props)=>{
     return (
@@ -19,7 +19,7 @@ const Modal =(props)=>{
   
   return(
     <>
-    {ReactDOM.createPortal(<BackdropModal/>, PortalElement)}
+    {ReactDOM.createPortal(<BackdropModal onHideCart={props.onClick}/>, PortalElement)}
     {ReactDOM.createPortal(<ModalContainer>{props.children}</ModalContainer>, PortalElement)}
     </>
   )
